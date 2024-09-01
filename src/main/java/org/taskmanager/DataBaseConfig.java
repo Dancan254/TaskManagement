@@ -1,4 +1,4 @@
-package org.example;
+package org.taskmanager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
