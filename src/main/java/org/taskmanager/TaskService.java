@@ -1,9 +1,6 @@
 package org.taskmanager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class TaskService {
     public void createTask(Task task) {
@@ -44,5 +41,30 @@ public class TaskService {
             throw new RuntimeException("Failed to check task existence", e);
         }
         return false;
+    }
+
+    //method to update task, needed is the task id
+    public void updateTask(Long id, Task updateTask){
+        String query = "UPDATE tasks SET title  = ?, description = ?, status = ?, due_date = ?, WHERE id = ?";
+        try(Connection connection = DataBaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query
+            )){
+            preparedStatement.setString(1,updateTask.getTitle());
+            preparedStatement.setString(2, updateTask.getDescription());
+            preparedStatement.setString(3, updateTask.getStatus().name());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(updateTask.getDueDate()));
+            preparedStatement.setLong(5, updateTask.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Task updated successfully");
+            }
+            else{
+                System.out.println("No task found with the given id");
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Failed to update task", e);
+
+        }
     }
 }
