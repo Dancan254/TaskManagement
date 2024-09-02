@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class Task {
-    private long id;
+    private Long id;
     private String title;
     private String description;
     private Status status;
