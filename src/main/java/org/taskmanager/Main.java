@@ -27,6 +27,7 @@ public class Main {
             switch (choice){
                 case 1 -> addTask(scanner);
                 case 2 -> viewAllTasks();
+                case 3 -> viewTasksByStatus(scanner);
                 case 7 -> {
                     running = false;
                     System.out.println("Exiting the app. Goodbye!");
@@ -52,6 +53,12 @@ public class Main {
     }
     private static void viewAllTasks(){
         List<Task> tasks = taskService.getAllTasks();
+        tasks.forEach(System.out::println);
+    }
+    private static void viewTasksByStatus(Scanner scanner) {
+        System.out.print("Enter task status (PENDING, IN_PROGRESS, COMPLETED): ");
+        String input = scanner.nextLine().toUpperCase();
+        List<Task> tasks = taskService.getTaskByStatus(input);
         tasks.forEach(System.out::println);
     }
 }

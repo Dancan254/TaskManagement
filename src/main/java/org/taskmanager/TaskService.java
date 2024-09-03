@@ -103,9 +103,26 @@ public class TaskService {
         return tasks;
     }
 
-    public List<Task> getTaskByStatus(Task.Status status){
-        return getAllTasks().stream().filter(task -> task.getStatus() == status).
-                collect(Collectors.toList());
+    public List<Task> getTaskByStatus(String statusInput){
+        Task.Status status = validateStatus(statusInput);
+        if(status == null){
+            System.out.println("Invalid status entered. Please enter one of the following: PENDING, IN_PROGRESS, COMPLETED.");
+            return new ArrayList<>();
+        }
+        List<Task> tasks = getAllTasks().stream()
+                .filter(task -> task.getStatus() == status)
+                .toList();
+        if (tasks.isEmpty()){
+            System.out.println("No tasks found with such status");
+        }
+        return tasks;
+    }
+    public Task.Status validateStatus(String statusInput){
+        try{
+            return Task.Status.valueOf(statusInput);
+        }catch (IllegalArgumentException e){
+            return null;
+        }
     }
 
     public List<Task> getTaskDueSoon(){
