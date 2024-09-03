@@ -1,6 +1,7 @@
 package org.taskmanager;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -105,5 +106,10 @@ public class TaskService {
     public List<Task> getTaskByStatus(Task.Status status){
         return getAllTasks().stream().filter(task -> task.getStatus() == status).
                 collect(Collectors.toList());
+    }
+
+    public List<Task> getTaskDueSoon(){
+        return getAllTasks().stream().filter(task -> task.getDueDate() != null && task.getDueDate().isBefore(LocalDateTime.now().plusDays(3)))
+                .collect(Collectors.toList());
     }
 }
