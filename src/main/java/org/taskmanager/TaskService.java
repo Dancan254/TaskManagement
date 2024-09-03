@@ -112,4 +112,22 @@ public class TaskService {
         return getAllTasks().stream().filter(task -> task.getDueDate() != null && task.getDueDate().isBefore(LocalDateTime.now().plusDays(3)))
                 .collect(Collectors.toList());
     }
+
+    public void deleteTask(Long id){
+        String query = "DELETE from tasks WHERE id = ?";
+        try(Connection connection = DataBaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setLong(1, id);
+            int affectedRows = preparedStatement.executeUpdate();
+            if(affectedRows > 0){
+                System.out.println("Task deleted successfully");
+            }else{
+                System.out.println("Task not found");
+            }
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
