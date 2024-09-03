@@ -3,6 +3,7 @@ package org.taskmanager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TaskService {
     public void createTask(Task task) {
@@ -99,5 +100,10 @@ public class TaskService {
             e.printStackTrace();
         }
         return tasks;
+    }
+
+    public List<Task> getTaskByStatus(Task.Status status){
+        return getAllTasks().stream().filter(task -> task.getStatus() == status).
+                collect(Collectors.toList());
     }
 }
