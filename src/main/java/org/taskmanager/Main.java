@@ -13,14 +13,15 @@ public class Main {
         System.out.println("Welcome to the Task Management Application!");
 
         while(running){
-            System.out.println("\nChoose an option:");
-            System.out.println("1. Add a task");
-            System.out.println("2. View all tasks");
-            System.out.println("3. View tasks by status");
-            System.out.println("4. View tasks due soon");
-            System.out.println("5. Update a task");
-            System.out.println("6. Delete a task");
-            System.out.println("7. Exit");
+            System.out.println("""
+                    1. Add a task
+                    2. View all tasks
+                    3. View tasks by status
+                    4. View tasks due soon
+                    5. Update a task
+                    6. Delete a task
+                    7. Exit
+                    """);
 
             int choice = scanner.nextInt();
             scanner.nextLine();
