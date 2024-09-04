@@ -28,6 +28,9 @@ public class Main {
                 case 1 -> addTask(scanner);
                 case 2 -> viewAllTasks();
                 case 3 -> viewTasksByStatus(scanner);
+                case 4 -> viewTasksDueSoon();
+                case 5 -> updateTask(scanner);
+                case 6 -> deleteTask(scanner);
                 case 7 -> {
                     running = false;
                     System.out.println("Exiting the app. Goodbye!");
@@ -60,5 +63,30 @@ public class Main {
         String input = scanner.nextLine().toUpperCase();
         List<Task> tasks = taskService.getTaskByStatus(input);
         tasks.forEach(System.out::println);
+    }
+    private static void viewTasksDueSoon(){
+        List<Task> tasks = taskService.getTaskDueSoon();
+        tasks.forEach(System.out::println);
+    }
+    private static void updateTask(Scanner scanner){
+        System.out.print("Enter the id of the task you want to update: ");
+        Long id = scanner.nextLong();
+        scanner.nextLine(); //consume new line
+        System.out.print("Enter new task title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter new task description: ");
+        String description = scanner.nextLine();
+        System.out.print("Enter new task status (PENDING, IN_PROGRESS, COMPLETED): ");
+        String status = scanner.nextLine().toUpperCase();
+        Task.Status statusEnum = Task.Status.valueOf(status);
+        System.out.print("Enter new task due date (YYYY-MM-DDTHH:MM:SS): ");
+        LocalDateTime dueDate = LocalDateTime.parse(scanner.nextLine());
+        Task task = new Task(id, title, description, statusEnum, LocalDateTime.now(), dueDate);
+        taskService.updateTask(id,task);
+    }
+    private static void deleteTask(Scanner scanner){
+        System.out.print("Enter the id of the task you want to delete: ");
+        Long id = scanner.nextLong();
+        taskService.deleteTask(id);
     }
 }
